@@ -42,7 +42,7 @@ subname() {
 And turn it into this:
 
 
-``` #!/bin/sh
+```#!/bin/sh
 
 # Some comment.
 for i in 1 2 3 4
@@ -71,7 +71,8 @@ done
 subname() 
 {
     :
-} ```
+} 
+```
 
 Obtaining TidyShell
 ===================
