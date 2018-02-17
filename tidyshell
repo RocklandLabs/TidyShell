@@ -2,7 +2,7 @@
 #
 # tidyshell - Perl script to format shell scripts.
 # 
-# $Id: tidyshell  v1.6  02/17/18 15:51:26  gehll275  Exp $
+# $Id: tidyshell  v1.7  02/17/18 17:35:46  gehll275  Exp $
 #
 # Copyright (C) 2008-9 Luke Gehl   All rights reserved.
 # This is free software with ABSOLUTELY NO WARRANTY.
@@ -145,7 +145,7 @@ sub check_options {
 sub tidy_input {
 
   # Print the procedure name if debugging.
-  print("tidy_input_BEGIN\n");
+  print("tidy_input_BEGIN\n") if $debug;
 
   # Set the padding to be 0 initially.
   my $padding = 0;
@@ -249,7 +249,7 @@ sub tidy_input {
   close($input_file);
 
   # Print the procedure name if debugging.
-  print("END_tidy_input\n");
+  print("END_tidy_input\n") if $debug;
 
 };
 
@@ -258,7 +258,7 @@ sub tidy_input {
 ##########
 
 # Print the name and version.
-print("tidyshell v1.6\n");
+print("tidyshell v1.7\n");
 
 # Load in the options.
 get_options();
