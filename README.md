@@ -15,15 +15,13 @@ It can take a script like this:
 # Some comment.
 for i in 1 2 3 4
 do
-    while [ $i -gt 2 ]
-    do
+    while [ $i -gt 2 ]; do
         :
     done
-    if [ $i -eq 0 ]
-    then
+                    if [ $i -eq 0 ]
+then
         :
-    elif [ $i -eq 1 ]
-    then
+    elif [ $i -eq 1 ]; then
         :
     else
         :
@@ -31,14 +29,15 @@ do
     case $i in
         1) : ;;
         2)
-            :
-        ;;
-    esac
-done
+                           :
+                ;;
+esac
+                   done
 
-subname(){
-    :
-} ```
+subname() {
+:
+}```
+
 
 And turn it into this:
 
