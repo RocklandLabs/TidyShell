@@ -1,0 +1,10 @@
+TODO for TidyShell
+$Id: TODO  v1.2  02/17/18 15:52:29  gehll275  Exp $
+
+This file lists potential improvements and wish-list items for TidyShell.
+
+	* add code to allow for going back and forth from ;do or ;then
+		and putting them onto two lines (will require some 
+		reading ahead probably)
+
+	* add code to allow sub() { to go back and forth to two lines		

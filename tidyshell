@@ -1,0 +1,276 @@
+#!/usr/bin/perl -w
+#
+# tidyshell - Perl script to format shell scripts.
+# 
+# $Id: tidyshell  v1.6  02/17/18 15:51:26  gehll275  Exp $
+#
+# Copyright (C) 2008-9 Luke Gehl   All rights reserved.
+# This is free software with ABSOLUTELY NO WARRANTY.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either versions 2, or (at your option)
+# any later version.
+# 
+# This program is distributed in the hope that it will be useful
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA
+#
+
+######################
+# VARIABLES AND USES #
+######################
+
+# Uses.
+use Getopt::Std;
+
+# Global variables.
+$debug = 0;
+%options = ();
+$spaces = "                                                                                   ";
+
+###############
+# SUBROUTINES #
+###############
+
+# Get the options and set them in the options array.
+sub get_options {
+
+  # Print the procedure name if debugging.
+  print("get_options_BEGIN\n") if $debug;
+  
+  # Set some default values just so they are defined.
+  $options{d} = 0;
+  $options{h} = 0;
+  $options{i} = '';
+  $options{n} = 4;
+  $options{o} = '';
+# These are in there for the future.
+#  $options{s} = 0;
+#  $options{w} = 0;
+  
+  # Get the options.
+  getopts ("dhi:n:o:", \%options);
+# This is there for the future.
+#  getopts ("dhi:n:o:sw", \%options);
+
+  # Turn on debugging if it just got set.
+  $debug = 1 if ($options{d} == 1);
+
+  # Print the various versions.  
+  print("option -d $options{d}\n") if $debug;
+  print("option -h $options{h}\n") if $debug;
+  print("option -i $options{i}\n") if $debug;
+  print("option -n $options{n}\n") if $debug;
+  print("option -o $options{o}\n") if $debug;
+# These are in there for the future.
+#  print("Option -s $options{s}\n") if $debug;
+#  print("Option -w $options{w}\n") if $debug;
+
+  # Print the procedure name if debugging.
+  print("END_get_options\n") if $debug;
+
+}
+
+# Print the usage.
+sub print_usage {
+
+  # Print the procedure name if debugging.
+  print("print_usage_BEGIN\n") if $debug;
+
+  # Print out the usage.
+  print("Usage:: $0 [options] -i <inputfile> -o <outputfile>\n");
+  print("where [options] are as follows:\n");
+  print("  -d = turn on debug mode [optional]\n");
+  print("  -h = print out this usage screen\n");
+  print("  -i <inputfile> = specify the name of the input file\n");
+  print("  -n # = set the indent to be # spaces [optional, default is 4]\n");
+  print("  -o <outputfile> = specify the name of the output file [optional]\n");
+# These are in there for the future.
+#  print("  -s = change 'sub name() {' so 2 separate lines [optional, default is off]\n");
+#  print("  -w = change '; then' or '; do' to two lines [optional, default is on]\n");
+  
+  # Print the procedure name if debugging.
+  print("END_print_usage\n") if $debug;
+
+};
+
+# Print out the error and the usage and exist.
+sub exit_on_error {
+
+  # Print hte procedure name if debugging.
+  print("error_BEGIN\n") if $debug;
+
+  # Get the variables passed to the function.
+  local $message = $_[0];
+
+  # Print out the message and then exit with an error.
+  print("ERROR: $message\n");
+  print_usage();
+  exit(1); 
+
+  # Print the procedure name if debugging.
+  # This *really* isn't needed since the program exits if error is called.
+  # but leaving it in anyway in case I ever turn off the exitting.
+  print("END_error\n") if $debug;
+ 
+};
+
+# Check the options for sanity sake.
+sub check_options {
+
+  # Print the procedure name if debugging.
+  print("check_options_BEGIN\n") if $debug;
+
+  # Make sure the input file exists.
+  if (! defined($options{i})) {
+     exit_on_error("The input file hasn't been specified");
+  } elsif (! -f $options{i}) {
+     exit_on_error("The input file doesn't exist");
+  };
+
+  # Print the procedure name if debugging.
+  print("END_check_options\n") if $debug;
+
+};
+
+
+# Tidy the input!
+sub tidy_input {
+
+  # Print the procedure name if debugging.
+  print("tidy_input_BEGIN\n");
+
+  # Set the padding to be 0 initially.
+  my $padding = 0;
+  my $is_if = 0;
+  my $is_while = 0;
+  my $is_sub = 0;
+ 
+  # First open the file.
+  open(my $input_file, "< $options{i}");
+
+  # Loop through the input file.
+  while (my $input_line = <$input_file>) {
+
+     # Print this only to show a new line.
+     print("--\n") if $debug;  
+
+     # Remove any leading or trailing return.
+     chomp($input_line);
+     print("input_line_PRE = $input_line\n") if $debug;
+     $input_line =~ s/^\s+|\s+$//g;
+     print("input_line_POST = $input_line\n") if $debug;
+ 
+     # See if it is a ; then or ; do line. 
+     # This is so that it can be used to not print out line as is.
+     if ($input_line =~ m/;\s+then$/) {
+	$is_if = 1;
+	$input_line =~ s/;\s+then$//;
+     } elsif ($input_line =~ m/;\s+do\s*/) {
+	$is_do = 1;
+	$input_line =~ s/;\s+do$//;
+     };
+
+     # See if its a subroutine with an { at the end.
+     if ($input_line =~ m/^[a-zA-Z_][a-zA-Z0-9_]*\(\s*\)\s*\{/) {
+	$is_sub = 1;
+	$input_line =~ s/{//;
+     };
+
+     # See if anything needs to be subtracted *before* printing.
+     print("padding_PRE $padding\n") if $debug;
+     if (($input_line =~ m/^done\s*/) or
+        ($input_line =~ m/^elif/) or
+        ($input_line =~ m/^else/) or
+        ($input_line =~ m/^esac/) or
+        ($input_line =~ m/^fi\s*/) or
+	# This is for the guts of a case statement but only if its a single line.
+        ($input_line =~ m/^;;/) or
+	# This matches the end of a subroutine.
+	($input_line =~ m/^\}\s*/)) {
+	print("input_line_MATCH-\n") if $debug;
+	$padding = $padding - $options{n};
+	# Added this because it should *never* go below zero, but I
+	# didn't want it to crash if it did occur.
+	if ($padding < 0) {
+	   print("padding_ERROR = $padding\n") if $debug;
+	   $padding = 0;
+	};
+     };
+
+     # Print the line.
+     print("input_line_PRINT $input_line\n") if $debug;
+     print(substr($spaces, 0, $padding), $input_line, "\n") if not $debug;
+
+     # Now see if it was a ; then or ; do situation.
+     if ($is_if) {
+        print(substr($spaces, 0, $padding), "then\n");
+	$is_if = 0;
+	$input_line = "then";
+     } elsif ($is_do) {
+        print(substr($spaces, 0, $padding), "do\n");
+	$is_do = 0;
+	$input_line = "do";
+     };
+
+     # If the  line is the beginning of a subroutine, print the {.
+     if ($is_sub == 1) {
+	$is_sub = 0;
+	print("{\n");
+     };
+
+     # See if anything needs to be added *after* printing.
+     if (($input_line =~ m/^case\s+/) or
+	(($input_line =~ m/^do\s*/) and not ($input_line =~ m/^done\s*/)) or
+         ($input_line =~ m/^else\s*/) or
+         ($input_line =~ m/^then\s*/) or
+	 # This is for the guts of case statements.
+	 (($input_line =~ m/^[\*"'a-zA-Z0-9|\s]+\)\s*/) and not ($input_line =~ m/;;/)) or   
+	 # This is for the names of subroutines.
+	 ($input_line =~ m/^[a-zA-Z_][a-zA-Z0-9_]*\(\s*\)/) or
+	 $is_do or $is_if) {
+	print("input_line_MATCH+\n") if $debug;
+	$padding = $padding + $options{n};
+     };
+
+     # Print what the padding will be next time.
+     print("padding_POST = $padding\n") if $debug;
+
+  };
+
+  # Cleanup by closing the file.
+  close($input_file);
+
+  # Print the procedure name if debugging.
+  print("END_tidy_input\n");
+
+};
+
+##########
+#  MAIN  #
+##########
+
+# Print the name and version.
+print("tidyshell v1.6\n");
+
+# Load in the options.
+get_options();
+if ($options{h} == 1) {
+  print_usage();
+  exit(0);
+};   
+check_options();
+
+# Since everything checks out, tidy up the input!
+tidy_input();
+
+# Done.
+exit (0);
+

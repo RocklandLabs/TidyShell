@@ -1,0 +1,35 @@
+Basic Installation
+==================
+
+To install TidyShell, copy the script to a location and make it 
+executable
+
+  $ cp tidyshell /usr/local/bin
+  $ chmod +x /usr/local/bin/tidyshell
+
+Then you are ready to run it:
+
+  $ tidyshell
+  tidyshell v1.6
+  ERROR: The input file doesn't exist
+  Usage:: ./tidyshell [options] -i <inputfile> -o <outputfile>
+  where [options] are as follows:
+    -d = turn on debug mode [optional]
+    -h = print out this usage screen
+    -i <inputfile> = specify the name of the input file
+    -n # = set the indent to be # spaces [optional, default is 4]
+    -o <outputfile> = specify the name of the output file [optional]
+
+To run it against a script:
+
+  $ tidyshell -i sample1.sh
+
+To run it against a script and make the spaces 2:
+
+  $ tidyshell -n 2 -i sample1.sh
+
+To run it against a script and send the output to another file:
+
+  $ tidyshell -i sample1.sh -o sample1.clean.sh
+
+
