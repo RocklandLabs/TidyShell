@@ -10,7 +10,8 @@ for `while (expr); do`.  It will ensure the spacing is consitent with `case` and
 It can take a script like this:
 
 
-``` #!/bin/sh
+```
+#!/bin/sh
 
 # Some comment.
 for i in 1 2 3 4
@@ -36,7 +37,8 @@ esac
 
 subname() {
 :
-}```
+}
+```
 
 
 And turn it into this:
@@ -112,15 +114,21 @@ where [options] are as follows:
 
 To run it against a script:
 
-```$ tidyshell -i sample1.sh```
+```
+$ tidyshell -i sample1.sh
+```
 
 To run it against a script and make the spaces 2:
 
-```$ tidyshell -n 2 -i sample1.sh```
+```
+$ tidyshell -n 2 -i sample1.sh
+```
 
 To run it against a script and send the output to another file:
 
-```$ tidyshell -i sample1.sh -o sample1.clean.sh```
+```
+$ tidyshell -i sample1.sh -o sample1.clean.sh
+```
 
 # Contributions
 
