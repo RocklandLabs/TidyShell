@@ -2,7 +2,7 @@
 #
 # tidyshell - Perl script to format shell scripts.
 # 
-# $Id: tidyshell  v1.9  02/18/18 06:00:03  gehll275  Exp $
+# $Id: tidyshell  v1.10  02/18/18 06:22:46  gehll275  Exp $
 #
 # Copyright (C) 2018 Luke Gehl   All rights reserved.
 # This is free software with ABSOLUTELY NO WARRANTY.
@@ -240,7 +240,7 @@ sub tidy_input {
          ($input_line =~ m/^else\s*/) or
          ($input_line =~ m/^then\s*/) or
 	 # This is for the guts of case statements.
-	 (($input_line =~ m/^[\*"'a-zA-Z0-9|\s]+\)\s*/) and not ($input_line =~ m/;;/)) or   
+	 (($input_line =~ m/^[\*\-'"a-zA-Z0-9_]+\)\s*/) and not ($input_line =~ m/;;/)) or   
 	 # This is for the names of subroutines.
 	 ($input_line =~ m/^[a-zA-Z_][a-zA-Z0-9_]*\(\s*\)\s*\{/) or
 	 # This matches the start of a subroutine.
@@ -267,7 +267,7 @@ sub tidy_input {
 ##########
 
 # Print the name and version.
-print("tidyshell v1.9\n");
+print("tidyshell v1.10\n");
 
 # Load in the options.
 get_options();

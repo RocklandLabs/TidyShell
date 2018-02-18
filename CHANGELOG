@@ -1,7 +1,11 @@
 CHANGELOG for TidyShell
-$Id: CHANGELOG  v1.3  02/18/18 06:02:25  gehll275  Exp $
+$Id: CHANGELOG  v1.4  02/18/18 06:25:14  gehll275  Exp $
 
-2018-02-18 v.9    Luke Gehl  <gehll275@gmail.com>
+2018-02-18 v1.10   Luke Gehl  <gehll275@gmail.com>
+
+	* Fixed spacing from matching case statements with a - in the choice.
+
+2018-02-18 v1.9    Luke Gehl  <gehll275@gmail.com>
 
 	* Fixed spacing to recognize { on its own line for a subroutine.
 
