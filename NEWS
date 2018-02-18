@@ -1,5 +1,20 @@
 NEWS for TidyShell
-$Id: NEWS  v1.3  02/17/18 15:56:13  gehll275  Exp $
+$Id: NEWS  v1.5  02/18/18 06:02:17  gehll275  Exp $
+
+Version 1.9
+
+	* Fixed a bug where a subroutine with { on a separate line
+	wasn't getting flagged as a subroutine so no spacing was
+	getting added.
+
+Version 1.8
+
+	* Changed the copyright date to be 2018.
+
+Version 1.7
+	
+	* Fixed a bug where a statement was being printed out for
+	debug mode while not in debug mode.
 
 Version 1.6
 

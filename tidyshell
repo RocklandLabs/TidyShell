@@ -2,7 +2,7 @@
 #
 # tidyshell - Perl script to format shell scripts.
 # 
-# $Id: tidyshell  v1.8  02/17/18 17:53:28  gehll275  Exp $
+# $Id: tidyshell  v1.9  02/18/18 06:00:03  gehll275  Exp $
 #
 # Copyright (C) 2018 Luke Gehl   All rights reserved.
 # This is free software with ABSOLUTELY NO WARRANTY.
@@ -173,16 +173,22 @@ sub tidy_input {
      if ($input_line =~ m/;\s+then$/) {
 	$is_if = 1;
 	$input_line =~ s/;\s+then$//;
+	print("input_line_THEN\n") if $debug;
      } elsif ($input_line =~ m/;\s+do\s*/) {
 	$is_do = 1;
 	$input_line =~ s/;\s+do$//;
+	print("input_line_DO\n") if $debug;
      };
 
      # See if its a subroutine with an { at the end.
      if ($input_line =~ m/^[a-zA-Z_][a-zA-Z0-9_]*\(\s*\)\s*\{/) {
 	$is_sub = 1;
 	$input_line =~ s/{//;
-     };
+	print("input_line_SUB\n") if $debug;
+     };# elsif ($input_line =~ m/^{\s*/) {
+#	$is_sub = 1;
+#	print("input_line_SUB\n") if $debug;
+#     };
 
      # See if anything needs to be subtracted *before* printing.
      print("padding_PRE $padding\n") if $debug;
@@ -205,6 +211,7 @@ sub tidy_input {
 	};
      };
 
+
      # Print the line.
      print("input_line_PRINT $input_line\n") if $debug;
      print(substr($spaces, 0, $padding), $input_line, "\n") if not $debug;
@@ -224,6 +231,7 @@ sub tidy_input {
      if ($is_sub == 1) {
 	$is_sub = 0;
 	print("{\n");
+	$input_line = "{";
      };
 
      # See if anything needs to be added *after* printing.
@@ -234,8 +242,9 @@ sub tidy_input {
 	 # This is for the guts of case statements.
 	 (($input_line =~ m/^[\*"'a-zA-Z0-9|\s]+\)\s*/) and not ($input_line =~ m/;;/)) or   
 	 # This is for the names of subroutines.
-	 ($input_line =~ m/^[a-zA-Z_][a-zA-Z0-9_]*\(\s*\)/) or
-	 $is_do or $is_if) {
+	 ($input_line =~ m/^[a-zA-Z_][a-zA-Z0-9_]*\(\s*\)\s*\{/) or
+	 # This matches the start of a subroutine.
+	 ($input_line =~ m/^\{\s*/)) {
 	print("input_line_MATCH+\n") if $debug;
 	$padding = $padding + $options{n};
      };
@@ -258,7 +267,7 @@ sub tidy_input {
 ##########
 
 # Print the name and version.
-print("tidyshell v1.8\n");
+print("tidyshell v1.9\n");
 
 # Load in the options.
 get_options();

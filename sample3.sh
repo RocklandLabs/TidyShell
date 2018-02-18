@@ -25,3 +25,8 @@ esac
 subname() { 
 :
 }
+
+subname2() 
+{
+:
+}
