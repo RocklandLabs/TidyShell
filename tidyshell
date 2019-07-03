@@ -2,9 +2,9 @@
 #
 # tidyshell - Perl script to format shell scripts.
 # 
-# $Id: tidyshell  v1.10  02/18/18 06:22:46  gehll275  Exp $
+# $Id: tidyshell  v1.10  02/18/18 06:22:46  rocklandlabs  Exp $
 #
-# Copyright (C) 2018 Luke Gehl   All rights reserved.
+# Copyright (C) 2018-9 Rockland Labs   All rights reserved.
 # This is free software with ABSOLUTELY NO WARRANTY.
 #
 # This program is free software; you can redistribute it and/or modify

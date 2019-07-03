@@ -1,24 +1,24 @@
 CHANGELOG for TidyShell
-$Id: CHANGELOG  v1.4  02/18/18 06:25:14  gehll275  Exp $
+$Id: CHANGELOG  v1.4  02/18/18 06:25:14  rocklandlabs  Exp $
 
-2018-02-18 v1.10   Luke Gehl  <gehll275@gmail.com>
+2018-02-18 v1.10   Rockland Labs  <rocklandlabs@gmail.com>
 
 	* Fixed spacing from matching case statements with a - in the choice.
 
-2018-02-18 v1.9    Luke Gehl  <gehll275@gmail.com>
+2018-02-18 v1.9    Rockland Labs  <rocklandlabs@gmail.com>
 
 	* Fixed spacing to recognize { on its own line for a subroutine.
 
-2018-02-17 v1.8   Luke Gehl  <gehll275@gmail.com>
+2018-02-17 v1.8   Rockland Labs  <rocklandlabs@gmail.com>
 
 	* Changed copyright date to 2018.
 
-2018-02-17 v1.7   Luke Gehl  <gehll275@gmail.com>
+2018-02-17 v1.7   Rockland Labs  <rocklandlabs@gmail.com>
 
 	* Removed printing of debug statement when debug
 		isn't turned on.
 
-2018-02-16  v1.6  Luke Gehl  <gehll275@gmail.com>
+2018-02-16  v1.6  Rockland Labs  <rocklandlabs@gmail.com>
 
 	* Created.
 

@@ -80,8 +80,8 @@ Obtaining TidyShell
 ===================
 
 You can download TidyShell either in whole or just the single script
-on [GitHub](https://github.com/gehll275/TidyShell/).
-You can also [browse, download, or clone the development version on GitHub](https://github.com/gehll275/TidyShell/).
+on [GitHub](https://github.com/RocklandLabs/TidyShell/).
+You can also [browse, download, or clone the development version on GitHub](https://github.com/RocklandLabs/TidyShell/).
 
 Installation
 ============
